@@ -21,6 +21,16 @@ class AgendasController < ApplicationController
     end
   end
 
+  def destroy
+    if @agenda.team.owner || current_user?
+      @agenda.destroy
+      # メールを送るアクションを記入する
+      redirect_to dashboard_url, notice: I18n.t('views.messages.delete_agenda')
+    else
+      redirect_to dashboard_url, notice: "アジェンダ作成者とチームリーダー以外は、削除できません。"
+    end
+  end
+
   private
 
   def set_agenda
