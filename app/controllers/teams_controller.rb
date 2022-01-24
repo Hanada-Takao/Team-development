@@ -53,7 +53,9 @@ class TeamsController < ApplicationController
     # ②チームからowner_idを取り出す
     # ②に①を代入して Update
     @team.update(owner_id: params[:user_id])
+    binding.pry
     redirect_to team_path, notice: "#{@team.name}チームのリーダーを移譲しました"
+    LeaderChangeMailer.leader_change_mail(@team.owner.email).deliver
   end
 
   private
