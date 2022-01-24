@@ -10,7 +10,9 @@
               <%= image_tag default_img(@team.icon_url), class: 'img' %><br>
               <%= @team.name %>
             </div>
-            <%= link_to I18n.t('views.messages.edit_team'), edit_team_path(@team), class: 'btn btn-success btn-block mt-3' %>
+              <% if current_user.id == @team.owner_id %>
+                <%= link_to I18n.t('views.messages.edit_team'), edit_team_path(@team), class: 'btn btn-success btn-block mt-3' %>
+              <% end %>
           </div>
 
           <div class="col-md-8">
@@ -42,13 +44,13 @@
                       <td><%= image_tag 'default.jpg', size: '40x40' %></td>
                       <td><%= assign.user.email %></td>
                       <% if current_user.id == assign.user_id %>
-                      <%# <% binding.pry %> %>
-                        <td><%= link_to I18n.t('views.button.delete'), team_assign_path(@team, assign), method: :delete, class: 'btn btn-sm btn-danger' %></td>
+                        <td><%= link_to I18n.t('views.button.delete'), team_assign_path(@team, assign), method: :delete, class: 'btn btn-sm btn-danger' %>
                       <% elsif current_user.id == @team.owner_id %>
                         <td>
                           <%= link_to I18n.t('views.button.delete'), team_assign_path(@team, assign), method: :delete, class: 'btn btn-sm btn-danger' %>
                           <%= link_to 'チームリーダー移譲', leader_change_team_path(@team.id, user_id: assign.user.id), method: :patch, class: 'btn btn-sm btn-info' %>
-                      <% end %>
+                        </td>
+                       <% end %>
                     </tr>
                   <% end %>
                 </tbody>
