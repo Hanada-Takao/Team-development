@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   resources :teams do
     member do
-      post :leader_change
+      patch :leader_change
     end
     resources :assigns, only: %w(create destroy)
     resources :agendas, shallow: true do

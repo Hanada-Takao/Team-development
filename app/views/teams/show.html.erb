@@ -47,7 +47,7 @@
                       <% elsif current_user.id == @team.owner_id %>
                         <td>
                           <%= link_to I18n.t('views.button.delete'), team_assign_path(@team, assign), method: :delete, class: 'btn btn-sm btn-danger' %>
-                          <%= link_to 'チームリーダー移譲', leader_change_team_path(@team, assign), method: :patch, class: 'btn btn-sm btn-info' %>
+                          <%= link_to 'チームリーダー移譲', leader_change_team_path(@team.id, user_id: assign.user.id), method: :patch, class: 'btn btn-sm btn-info' %>
                       <% end %>
                     </tr>
                   <% end %>
