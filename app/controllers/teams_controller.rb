@@ -1,6 +1,6 @@
 class TeamsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_team, only: %i[show edit update destroy]
+  before_action :set_team, only: %i[show edit update destroy leader_change]
 
   def index
     @teams = Team.all
@@ -45,6 +45,17 @@ class TeamsController < ApplicationController
 
   def dashboard
     @team = current_user.keep_team_id ? Team.find(current_user.keep_team_id) : current_user.teams.first
+  end
+
+  def leader_change
+    # ①取り出したユーザーからIDを取り出す
+    # binding.pry
+    # ②チームからowner_idを取り出す
+    # ②に①を代入して Update
+    @team.update(owner_id: params[:user_id])
+    binding.pry
+    redirect_to team_path, notice: "#{@team.name}チームのリーダーを移譲しました"
+    LeaderChangeMailer.leader_change_mail(@team.owner.email).deliver
   end
 
   private
